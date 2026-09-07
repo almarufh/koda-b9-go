@@ -1,8 +1,6 @@
 package biodata
 
-import "fmt"
-
-func MyBiodata() {
+func MyBiodata() Biodata {
 	biodata := Biodata{
 		Nama:    "Alma'ruf Hidayat",
 		Foto:    "@almarufh",
@@ -15,6 +13,5 @@ func MyBiodata() {
 			Jurusan: "Hukum Ekonomi Syariah",
 		},
 	}
-
-	fmt.Println(biodata)
+	return biodata
 }
