@@ -1,4 +1,4 @@
-package interanal
+package internal
 
 import (
 	"fmt"
