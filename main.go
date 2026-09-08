@@ -113,7 +113,7 @@ func main() {
 			utils.Clear()
 			p, lb := inputParameter()
 			l, k := rectangle.AreaAndCircumference(p, lb)
-			fmt.Printf("Luas : %d\n", l)
+			fmt.Printf("Luas     : %d\n", l)
 			fmt.Printf("Keliling : %d\n", k)
 			confirm()
 			continue
