@@ -8,6 +8,7 @@ import (
 	"github.com/almarufh/koda-b9-go/internal"
 	"github.com/almarufh/koda-b9-go/internal/biodata"
 	"github.com/almarufh/koda-b9-go/internal/openfiles"
+	"github.com/almarufh/koda-b9-go/internal/person"
 	"github.com/almarufh/koda-b9-go/internal/rectangle"
 	"github.com/almarufh/koda-b9-go/utils"
 )
@@ -74,6 +75,17 @@ func inputParameter() (panjang int8, lebar int8) {
 	}
 }
 
+func showFile(rest string, err error) {
+	utils.Clear()
+	if err != nil {
+		fmt.Printf("\n-----[ ERROR ]-----\n\n%s", err)
+		fmt.Printf("\n\n-----------------------")
+	} else {
+		fmt.Printf("\n-----[ RESULTS ]-----\n\n%s", rest)
+		fmt.Printf("\n\n-----------------------")
+	}
+}
+
 func dashboard() {
 	for {
 		utils.Clear()
@@ -84,6 +96,7 @@ func dashboard() {
 			"Create Window",
 			"Insert Slice",
 			"My Biodata",
+			"Open File",
 		}
 
 		fmt.Printf("\n\n---[ DASHBOARD MINI TASK GOLANG ]---\n\n")
@@ -143,6 +156,39 @@ func dashboard() {
 			fmt.Printf("  Jurusan  : %s\n", data.Pendidikan.Jurusan)
 			confirm()
 			continue
+		case "7":
+			utils.Clear()
+			fmt.Printf("\n\n1. Input Manual")
+			fmt.Printf("\n2. Readme")
+			fmt.Printf("\n3. Directory")
+			fmt.Printf("\n\nChoose a menu : ")
+			input := utils.Input()
+			switch input {
+			case "1":
+				utils.Clear()
+				fmt.Printf("Input path : ")
+				text := utils.Input()
+				val, err := openfiles.Open(text)
+				showFile(val, err)
+				confirm()
+				continue
+			case "2":
+				utils.Clear()
+				val, err := openfiles.Open("./readme.md")
+				showFile(val, err)
+				confirm()
+				continue
+			case "3":
+				utils.Clear()
+				val, err := openfiles.Open("./internal")
+				showFile(val, err)
+				confirm()
+				continue
+			default:
+				wrongInput(input)
+			}
+			confirm()
+			continue
 		case "0":
 			utils.Clear()
 			os.Exit(0)
@@ -155,10 +201,16 @@ func dashboard() {
 
 func main() {
 	// dashboard()
-	// path := "./readme.md"
-	// path := "./internal"
-	path := ""
-	val, err := openfiles.Open(path)
-	fmt.Println("Value : ", val)
-	fmt.Println("Err   : ", err)
+	dataPersons := person.NewPerson("Ma'ruf", "Palopo", "082393468568")
+
+	data := dataPersons.PrintAll()
+	println(data)
+
+	greet := dataPersons.Greet()
+	fmt.Println(greet)
+
+	dataPersons.ChangeName("Niko")
+
+	greet = dataPersons.Greet()
+	fmt.Println(greet)
 }
