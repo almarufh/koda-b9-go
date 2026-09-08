@@ -7,6 +7,7 @@ import (
 
 	"github.com/almarufh/koda-b9-go/internal"
 	"github.com/almarufh/koda-b9-go/internal/biodata"
+	"github.com/almarufh/koda-b9-go/internal/openfiles"
 	"github.com/almarufh/koda-b9-go/internal/rectangle"
 	"github.com/almarufh/koda-b9-go/utils"
 )
@@ -73,7 +74,7 @@ func inputParameter() (panjang int8, lebar int8) {
 	}
 }
 
-func main() {
+func dashboard() {
 	for {
 		utils.Clear()
 		menu := []string{
@@ -150,4 +151,14 @@ func main() {
 			continue
 		}
 	}
+}
+
+func main() {
+	// dashboard()
+	// path := "./readme.md"
+	// path := "./internal"
+	path := ""
+	val, err := openfiles.Open(path)
+	fmt.Println("Value : ", val)
+	fmt.Println("Err   : ", err)
 }
