@@ -22,7 +22,7 @@ func (o *Fiktif) Payment(listPrice []uint32) error {
 	}
 
 	if tagihan <= 0 {
-		return fmt.Errorf("Tagihan sama dengan atau kurang dari 0 ")
+		return fmt.Errorf("Tagihan sama dengan atau kurang dari 0 (%d)", tagihan)
 	}
 	o.newTFiktif(listPrice)
 	return nil

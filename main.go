@@ -8,10 +8,13 @@ import (
 	"github.com/almarufh/koda-b9-go/internal"
 	"github.com/almarufh/koda-b9-go/internal/biodata"
 	"github.com/almarufh/koda-b9-go/internal/openfiles"
+	"github.com/almarufh/koda-b9-go/internal/payments"
 	"github.com/almarufh/koda-b9-go/internal/person"
 	"github.com/almarufh/koda-b9-go/internal/rectangle"
 	"github.com/almarufh/koda-b9-go/utils"
 )
+
+var listPrice = make([]uint32, 0)
 
 func wrongInput(text string) {
 	utils.Clear()
@@ -87,6 +90,7 @@ func showFile(rest string, err error) {
 }
 
 func dashboard() {
+	dataPersons := person.NewPerson("Ma'ruf", "Palopo", "082393468568")
 	for {
 		utils.Clear()
 		menu := []string{
@@ -97,6 +101,8 @@ func dashboard() {
 			"Insert Slice",
 			"My Biodata",
 			"Open File",
+			"Person",
+			"Payment",
 		}
 
 		fmt.Printf("\n\n---[ DASHBOARD MINI TASK GOLANG ]---\n\n")
@@ -187,6 +193,85 @@ func dashboard() {
 			default:
 				wrongInput(input)
 			}
+			continue
+		case "8":
+			utils.Clear()
+			data := dataPersons.PrintAll()
+			println(data)
+
+			greet := dataPersons.Greet()
+			fmt.Printf("\n\n")
+			fmt.Println(greet)
+			dataPersons.ChangeName("CuanBot.ID")
+			greet = dataPersons.Greet()
+			fmt.Printf("\n\n")
+			fmt.Println(greet)
+
+			fmt.Printf("\n\n")
+			fmt.Printf("1. Greet\n")
+			fmt.Printf("2. Change Name\n\n")
+			fmt.Printf("0. Exit\n\n\n")
+			fmt.Printf("Choose a menu : ")
+			input := utils.Input()
+			switch input {
+			case "1":
+				utils.Clear()
+				greet := dataPersons.Greet()
+				fmt.Println(greet)
+				confirm()
+			case "2":
+				utils.Clear()
+				fmt.Printf("New Name : ")
+				name := utils.Input()
+				dataPersons.ChangeName(name)
+				utils.Clear()
+				data := dataPersons.PrintAll()
+				println(data)
+				confirm()
+			case "0":
+				utils.Clear()
+				os.Exit(0)
+			default:
+				utils.Clear()
+				wrongInput(input)
+			}
+			continue
+		case "9":
+			utils.Clear()
+			// handleInputTagihan()
+			listPrice = []uint32{20000, 10000, 20000}
+
+			// ONLINE
+			fmt.Printf("\n=== PEMBAYARAN ONLINE ===\n\n")
+			online := payments.Online{}
+			payments.Pay(listPrice, online)
+
+			// BANK
+			fmt.Printf("\n\n=== PEMBAYARAN BANK ===\n")
+			bank := payments.Bank{}
+			payments.Pay(listPrice, bank)
+
+			// FIKTIF
+			fmt.Printf("\n\n=== PEMBAYARAN FIKTIF ===\n")
+
+			fmt.Printf("BAYAR\n")
+			listPrice = []uint32{}
+			fiktif := payments.Fiktif{}
+			err := payments.Pay(listPrice, &fiktif)
+			if err != nil {
+				fmt.Printf("\n\n")
+				fmt.Println("Error : ", err)
+			}
+			fmt.Printf("\n\n")
+
+			fmt.Printf("\nCETAK\n")
+			fiktif.CetakStrukFiktif()
+
+			fmt.Printf("\nTAMBAH BAYAR\n")
+			listPrice = append(listPrice, []uint32{30000, 25000}...)
+			payments.Pay(listPrice, &fiktif)
+			fmt.Printf("\nCETAK\n")
+			fiktif.CetakStrukFiktif()
 			confirm()
 			continue
 		case "0":
@@ -199,18 +284,35 @@ func dashboard() {
 	}
 }
 
+func handleInputTagihan() {
+	for {
+		utils.Clear()
+		fmt.Printf("Press any not number or 0 + Enter for back to dashboard\n\n")
+		if len(listPrice) < 1 {
+			fmt.Printf("\nBelum ada tagihan\n\n\n")
+		}
+
+		if len(listPrice) >= 1 {
+
+			var tagihan uint32
+
+			for _, value := range listPrice {
+				tagihan += value
+			}
+
+			fmt.Printf("Total Tagihan : %d", tagihan)
+		}
+
+		fmt.Printf("\n\nInput new tagihan : ")
+		input := utils.Input()
+		res := StringToInt8(input)
+		if res == 0 {
+			return
+		}
+		listPrice = append(listPrice, []uint32{uint32(res)}...)
+	}
+}
+
 func main() {
-	// dashboard()
-	dataPersons := person.NewPerson("Ma'ruf", "Palopo", "082393468568")
-
-	data := dataPersons.PrintAll()
-	println(data)
-
-	greet := dataPersons.Greet()
-	fmt.Println(greet)
-
-	dataPersons.ChangeName("Niko")
-
-	greet = dataPersons.Greet()
-	fmt.Println(greet)
+	dashboard()
 }

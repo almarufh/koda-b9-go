@@ -10,7 +10,7 @@ func Open(url string) (result string, err error) {
 	file, err := os.Open(url)
 
 	if err != nil {
-		return "", err
+		return "git ", err
 	}
 
 	defer func() {
@@ -27,7 +27,7 @@ func Open(url string) (result string, err error) {
 		panic("Terjadi panic saat mebaca file !")
 	}
 
-	fmt.Println(string(cnt))
+	// fmt.Println(string(cnt))
 
 	return string(cnt), nil
 }
