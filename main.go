@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/almarufh/koda-b9-go/internal"
 	"github.com/almarufh/koda-b9-go/internal/biodata"
@@ -32,6 +33,46 @@ func confirm() {
 	}
 }
 
+func StringToInt8(input string) int8 {
+	val, err := strconv.ParseUint(input, 10, 8)
+	if err != nil {
+		return 0
+	}
+	return int8(val)
+}
+
+func inputParameter() (panjang int8, lebar int8) {
+	for {
+		utils.Clear()
+		fmt.Printf("\nInput Panjang : ")
+		inputPanjang := utils.Input()
+		utils.Clear()
+		panjang = StringToInt8(inputPanjang)
+		fmt.Printf("\nInput Lebar : ")
+		inputLebar := utils.Input()
+		lebar = StringToInt8(inputLebar)
+		utils.Clear()
+		fmt.Printf("\nPanjang  : %d", panjang)
+		fmt.Printf("\nLebar    : %d\n\n", lebar)
+		fmt.Printf("1. Procces\n")
+		fmt.Printf("2. Change\n")
+		fmt.Printf("\n0. Exit\n")
+		fmt.Printf("\nChoose a menu : ")
+		menu := utils.Input()
+		switch menu {
+		case "1":
+			utils.Clear()
+			return panjang, lebar
+		case "2":
+			continue
+		case "0":
+			os.Exit(0)
+		default:
+			wrongInput(menu)
+		}
+	}
+}
+
 func main() {
 	for {
 		utils.Clear()
@@ -56,26 +97,30 @@ func main() {
 		switch input {
 		case "1":
 			utils.Clear()
-			luas := rectangle.Area(8, 8)
+			p, l := inputParameter()
+			luas := rectangle.Area(p, l)
 			fmt.Printf("Luas : %d\n", luas)
 			confirm()
 			continue
 		case "2":
 			utils.Clear()
-			keliling := rectangle.Circumference(8, 8)
+			p, l := inputParameter()
+			keliling := rectangle.Circumference(p, l)
 			fmt.Printf("Keliling : %d", keliling)
 			confirm()
 			continue
 		case "3":
 			utils.Clear()
-			l, k := rectangle.AreaAndCircumference(8, 8)
+			p, lb := inputParameter()
+			l, k := rectangle.AreaAndCircumference(p, lb)
 			fmt.Printf("Luas : %d\n", l)
 			fmt.Printf("Keliling : %d\n", k)
 			confirm()
 			continue
 		case "4":
 			utils.Clear()
-			internal.StarWindow(8, 6)
+			p, l := inputParameter()
+			internal.StarWindow(p, l)
 			confirm()
 			continue
 		case "5":
@@ -85,7 +130,16 @@ func main() {
 			continue
 		case "6":
 			utils.Clear()
-			biodata.MyBiodata()
+			data := biodata.MyBiodata()
+			fmt.Printf("\nNama       : %s\n", data.Nama)
+			fmt.Printf("Foto       : %s\n", data.Foto)
+			fmt.Printf("Email      : %s\n", data.Email)
+			fmt.Printf("Umur       : %d\n", data.Umur)
+			fmt.Printf("Telepon    : %s\n", data.Telepon)
+			fmt.Printf("Status     : %s\n", data.Status)
+			fmt.Printf("Pendidikan :\n")
+			fmt.Printf("  Kampus   : %s\n", data.Pendidikan.Nama)
+			fmt.Printf("  Jurusan  : %s\n", data.Pendidikan.Jurusan)
 			confirm()
 			continue
 		case "0":
