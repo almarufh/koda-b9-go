@@ -7,6 +7,7 @@ import (
 
 	"github.com/almarufh/koda-b9-go/internal"
 	"github.com/almarufh/koda-b9-go/internal/biodata"
+	"github.com/almarufh/koda-b9-go/internal/concurrency"
 	"github.com/almarufh/koda-b9-go/internal/openfiles"
 	"github.com/almarufh/koda-b9-go/internal/payments"
 	"github.com/almarufh/koda-b9-go/internal/person"
@@ -103,6 +104,7 @@ func dashboard() {
 			"Open File",
 			"Person",
 			"Payment",
+			"Concurency",
 		}
 
 		fmt.Printf("\n\n---[ DASHBOARD MINI TASK GOLANG ]---\n\n")
@@ -274,6 +276,11 @@ func dashboard() {
 			fiktif.CetakStrukFiktif()
 			confirm()
 			continue
+		case "10":
+			utils.Clear()
+			concurrency.GoWork()
+			confirm()
+			continue
 		case "0":
 			utils.Clear()
 			os.Exit(0)
@@ -314,5 +321,6 @@ func handleInputTagihan() {
 }
 
 func main() {
-	dashboard()
+	// dashboard()
+	concurrency.SendMessage()
 }
